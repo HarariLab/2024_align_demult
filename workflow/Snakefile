@@ -1,0 +1,40 @@
+import os
+
+configfile: "config/config.yaml"
+
+SAMPLES = [f'sample{lib.split("sample")[1].split(".")[0]}' for lib in os.listdir(config["libraries"])]
+
+rule all:
+    input:
+        expand("results/{sample}.done", sample = SAMPLES)
+    default_target: True
+
+rule cellranger_arc_count:
+    input:
+        libraries=os.path.join(config["libraries"], "{sample}.libraries.csv")
+    params:
+        cellranger_arc_path=config["cellrangerarc_path"],
+        refdir=config["refdir"],
+        jobmode=config["jobmode"]
+    output: "results/{sample}.done"
+    benchmark:
+        "benchmarks/{sample}.cellranger_arc.benchmark.txt"
+    log:
+       out = "logs/cellranger_arc_count/{sample}.out",
+       err = "logs/cellranger_arc_count/{sample}.err"
+    shell:
+        """
+        mkdir -p results
+        cd results
+        
+        {params.cellranger_arc_path} count \
+            --id={wildcards.sample} \
+            --reference={params.refdir} \
+            --libraries={input.libraries} \
+            --jobmode={params.jobmode} \
+            1> ../{log.out} \
+            2> ../{log.err}
+            
+        cd ..
+        touch {output}
+        """

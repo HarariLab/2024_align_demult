@@ -1,0 +1,14 @@
+default-resources:
+    executor: slurm
+    slurm_account: "PAS2694"
+    jobs: 4
+    mem_mb: 128000
+
+set-resources:
+    cellranger_arc_count:
+        executor: slurm
+        slurm_account: "PAS2694"
+        runtime: 540
+        slurm_extra: "'--nice=150'"
+        mem_mb_per_cpu: 4000
+        cpus_per_task: 20
