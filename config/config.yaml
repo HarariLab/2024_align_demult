@@ -1,6 +1,12 @@
-# config.yaml
-
-libraries: "/fs/ess/PAS2848/Karch_multiome_SR004606_10X_alignment/data/libraries/pool_12_17"
+# Cellranger-arc
+libraries: "data/libraries.csv"
 cellrangerarc_path: "/users/PAS2713/iaradsouza1/cellranger-arc-2.0.2/cellranger-arc"
 refdir: "/fs/scratch/PAS2694/iaradsouza1/cr_ref/refdata-cellranger-arc-GRCh38-2020-A-2.0.0"
 jobmode: "/users/PAS2713/iaradsouza1/cellranger-arc-2.0.2/external/martian/jobmanagers/slurm.template"
+
+# Skip vcf sorting?
+skip_vcf_sort: False
+
+# Demuxlet
+genotypes: "data/genotypes"
+conda_env: "demuxlet"

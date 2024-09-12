@@ -1,0 +1,6 @@
+name: demuxlet
+channels:
+  - bioconda
+dependencies:
+  - demuxlet=1.0
+  - picard=3.2.0
