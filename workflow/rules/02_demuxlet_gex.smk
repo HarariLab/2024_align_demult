@@ -4,6 +4,16 @@ include: "import_libraries.smk"
 
 POOLS_LIST = POOLS.pool_id.unique().tolist()
 
+def get_vcfs(wildcards):
+    bam = f"results/cellranger_arc_count/{wildcards.pool}/outs/gex_possorted_bam.bam"
+    barcodes = f"results/cellranger_arc_count/{wildcards.pool}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz"
+    if(not(config.get("skip_vcf_sort", False))):
+        vcf = f"results/updated_vcf/{wildcards.pool}.updated.sorted.vcf.gz"
+        return { "bam": bam, "vcf": vcf, "barcodes": barcodes }
+    else:
+        vcf = f"data/genotypes/{wildcards.pool}.vcf.gz"
+        return { "bam": bam, "vcf": vcf, "barcodes": barcodes }
+
 rule  demuxlet_gex_all:
     input:
         expand("results/demuxlet_gex/{pool}.done", pool = POOLS_LIST)
@@ -11,9 +21,7 @@ rule  demuxlet_gex_all:
 
 rule demuxlet_gex:
     input:
-        bam = "results/cellranger_arc_count/{pool}/outs/gex_possorted_bam.bam",
-        vcf = "results/updated_vcf/{pool}.updated.sorted.vcf.gz",
-        barcodes = "results/cellranger_arc_count/{pool}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz"
+        unpack(get_vcfs)
     output: "results/demuxlet_gex/{pool}.done"
     log:
         out = "logs/demuxlet_gex/{pool}.out",
