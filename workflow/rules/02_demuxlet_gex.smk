@@ -22,18 +22,28 @@ rule  demuxlet_gex_all:
 rule demuxlet_gex:
     input:
         unpack(get_vcfs)
-    output: "results/demuxlet_gex/{pool}.done"
+    output: 
+        "results/demuxlet_gex/{pool}.done"
+    params: 
+        cap_bq = config["cap_bq"],
+        min_bq = config["min_bq"],
+        min_mq = config["min_mq"],
+        min_td = config["min_td"],
+        excl_flag = config["excl_flag"]
     log:
         out = "logs/demuxlet_gex/{pool}.out",
         err = "logs/demuxlet_gex/{pool}.err"
     benchmark:
         "benchmarks/demuxlet_gex/{pool}.benchmark.txt"
     conda:
-        config["conda_env"]
+        config["conda_env"]       
     shell:
         """
         demuxlet --sam {input.bam} --vcf {input.vcf} \
-            --field GT --alpha 0 --alpha 0.5 --min-MQ 255 \
+            --field GT --alpha 0 --alpha 0.5 \
+            --min-BQ {params.min_bq} --cap-BQ {params.cap_bq} \
+            --min-MQ {params.min_mq} --min-TD {params.min_td} \
+            --excl-flag {params.excl_flag} \
             --group-list {input.barcodes} \
             --out results/demuxlet_gex/{wildcards.pool} \
             1> {log.out} \

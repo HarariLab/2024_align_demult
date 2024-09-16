@@ -6,12 +6,13 @@ POOLS_LIST = POOLS.pool_id.unique().tolist()
 
 def get_vcfs(wildcards):
     bam = f"results/cellranger_arc_count/{wildcards.pool}/outs/atac_possorted_bam.bam"
+    barcodes = f"results/cellranger_arc_count/{wildcards.pool}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz"
     if(not(config.get("skip_vcf_sort", False))):
         vcf = f"results/updated_vcf/{wildcards.pool}.updated.sorted.vcf.gz"
-        return { "bam": bam, "vcf": vcf }
+        return { "bam": bam, "vcf": vcf , "barcodes": barcodes }
     else:
         vcf = f"data/genotypes/{wildcards.pool}.vcf.gz"
-        return { "bam": bam, "vcf": vcf }
+        return { "bam": bam, "vcf": vcf, "barcodes": barcodes}
 
 rule  demuxlet_atac_all:
     input:
@@ -21,21 +22,32 @@ rule  demuxlet_atac_all:
 rule demuxlet_atac:
     input:
         unpack(get_vcfs)
-    output: "results/demuxlet_atac/{pool}.done"
+    output: 
+        "results/demuxlet_atac/{pool}.done"
+    params: 
+        cap_bq = config["cap_bq"],
+        min_bq = config["min_bq"],
+        min_mq = config["min_mq"],
+        min_td = config["min_td"],
+        excl_flag = config["excl_flag"]
     log:
         out = "logs/demuxlet_atac/{pool}.out",
         err = "logs/demuxlet_atac/{pool}.err"
     benchmark:
         "benchmarks/demuxlet_atac/{pool}.benchmark.txt"
     conda:
-        config["conda_env"]
+        config["conda_env"]       
     shell:
         """
         demuxlet --sam {input.bam} --vcf {input.vcf} \
-            --field GT --alpha 0 --alpha 0.5 --min-MQ 255 \
+            --field GT --alpha 0 --alpha 0.5 \
+            --min-BQ {params.min_bq} --cap-BQ {params.cap_bq} \
+            --min-MQ {params.min_mq} --min-TD {params.min_td} \
+            --excl-flag {params.excl_flag} \
+            --group-list {input.barcodes} \
             --out results/demuxlet_atac/{wildcards.pool} \
             1> {log.out} \
             2> {log.err}
-            
+
         touch {output}
         """
