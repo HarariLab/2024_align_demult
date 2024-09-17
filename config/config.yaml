@@ -8,5 +8,10 @@ jobmode: "/users/PAS2713/iaradsouza1/cellranger-arc-2.0.2/external/martian/jobma
 skip_vcf_sort: False
 
 # Demuxlet
-genotypes: "data/genotypes"
+genotypes: "data/genotypes/filter"
+cap_bq: 40 # Demuxlet default: 40
+min_bq: 20 # Demuxlet default: 13
+min_mq: 20 # Demuxlet default: 20
+min_td: 0 # Demuxlet default: 0
+excl_flag: 3844 # Demuxlet default: 3844
 conda_env: "demuxlet"
