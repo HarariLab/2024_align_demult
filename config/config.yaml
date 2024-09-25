@@ -5,7 +5,7 @@ refdir: "/fs/scratch/PAS2694/iaradsouza1/cr_ref/refdata-cellranger-arc-GRCh38-20
 jobmode: "/users/PAS2713/iaradsouza1/cellranger-arc-2.0.2/external/martian/jobmanagers/slurm.template"
 
 # Skip vcf sorting?
-skip_vcf_sort: False
+skip_vcf_sort: True
 
 # Demuxlet
 genotypes: "data/genotypes/filter"
@@ -14,4 +14,5 @@ min_bq: 20 # Demuxlet default: 13
 min_mq: 20 # Demuxlet default: 20
 min_td: 0 # Demuxlet default: 0
 excl_flag: 3844 # Demuxlet default: 3844
+geno_error: 0.01
 conda_env: "demuxlet"
