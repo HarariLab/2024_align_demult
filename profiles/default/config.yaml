@@ -14,11 +14,7 @@ set-resources:
         slurm_extra: "'--nice=150'"
         ##mem_mb_per_cpu: 4000
         cpus_per_task: 20
-    sort_vcf:
-        jobs: 5
-        mem_mb: 10000
-        runtime: 60
-    update_vcf_dict:
+    filter_vcf:
         jobs: 5
         mem_mb: 10000
         runtime: 60

@@ -4,8 +4,8 @@ cellrangerarc_path: "/users/PAS2713/iaradsouza1/cellranger-arc-2.0.2/cellranger-
 refdir: "/fs/scratch/PAS2694/iaradsouza1/cr_ref/refdata-cellranger-arc-GRCh38-2020-A-2.0.0"
 jobmode: "/users/PAS2713/iaradsouza1/cellranger-arc-2.0.2/external/martian/jobmanagers/slurm.template"
 
-# Skip vcf sorting?
-skip_vcf_sort: True
+# Skip vcf filter?
+skip_vcf_filter: False
 
 # Demuxlet
 genotypes: "data/genotypes/filter"

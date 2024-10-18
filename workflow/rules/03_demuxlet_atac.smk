@@ -7,8 +7,8 @@ POOLS_LIST = POOLS.pool_id.unique().tolist()
 def get_vcfs(wildcards):
     bam = f"results/cellranger_arc_count/{wildcards.pool}/outs/atac_possorted_bam.bam"
     barcodes = f"results/cellranger_arc_count/{wildcards.pool}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz"
-    if(not(config.get("skip_vcf_sort", False))):
-        vcf = f"results/updated_vcf/{wildcards.pool}.updated.sorted.vcf.gz"
+    if(not(config.get("skip_vcf_filter", False))):
+        vcf = f"results/filter_vcf/{wildcards.pool}.filtered.vcf.gz"
         return { "bam": bam, "vcf": vcf , "barcodes": barcodes }
     else:
         vcf = f"data/genotypes/{wildcards.pool}.vcf.gz"
@@ -31,9 +31,7 @@ rule demuxlet_atac:
         min_td = config["min_td"],
         excl_flag = config["excl_flag"],
         geno_error = config["geno_error"]
-    log:
-        out = "logs/demuxlet_atac/{pool}.out",
-        err = "logs/demuxlet_atac/{pool}.err"
+    log: "logs/demuxlet_atac/{pool}.out"
     benchmark:
         "benchmarks/demuxlet_atac/{pool}.benchmark.txt"
     conda:
@@ -47,9 +45,8 @@ rule demuxlet_atac:
             --min-MQ {params.min_mq} --min-TD {params.min_td} \
             --excl-flag {params.excl_flag} \
             --group-list {input.barcodes} \
-            --out results/demuxlet_gex/{wildcards.pool} \
-            1> {log.out} \
-            2> {log.err}
+            --out results/demuxlet_atac/{wildcards.pool} \
+            2> {log}
 
         touch {output}
         """

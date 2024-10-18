@@ -1,5 +1,5 @@
 include: "rules/00_cellranger_arc.smk"
-include: "rules/01_order_vcf.smk"
+include: "rules/01_filter_vcf.smk"
 include: "rules/02_demuxlet_gex.smk"
 include: "rules/03_demuxlet_atac.smk"
 
@@ -14,8 +14,8 @@ all_input_list = [
     rules.demuxlet_atac_all.input
 ]
 
-if(not(config.get("skip_vcf_sort", False))):
-    all_input_list.append([rules.sort_all.input])
+if(not(config.get("skip_vcf_filter", False))):
+    all_input_list.append([rules.filter_all.input])
 
 rule all:
     input:

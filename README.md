@@ -55,7 +55,7 @@ conda env create -f workflow/envs/demuxlet.yml
 
 Edit the `incoming_dir` variable on the `populate_data.sh` to the path where VCFs are located. Then run ` bash populate_data.sh`.
 
-3. Set up the slurm.template for cellranger
+3. Set up the `slurm.template` for cellranger
 
 An example is provided on `assets/slurm.template`. Set the path for your template on the `config/config.yaml` file.
 
