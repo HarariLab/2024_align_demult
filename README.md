@@ -4,9 +4,9 @@ A Snakemake workflow for Multiome ATAC + Gene Expression sequencing alignment wi
 
 ## Usage
 
-This pipeline needs the following inputs:
-    - A list of multiplexed fastq files (`libraries.csv` file);
-    - VCF files with genotypes for each sample in the pool (`data/genotypes`)
+This pipeline needs the following inputs:  
+    - A list of multiplexed fastq files (`libraries.csv` file);  
+    - VCF files with genotypes for each sample in the pool (`data/genotypes`)  
 
 ### Inputs
 
