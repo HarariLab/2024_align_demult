@@ -1,21 +1,19 @@
 # Resources set on the OSC
+executor: slurm
+jobs: 10
 default-resources:
-    executor: slurm
     slurm_account: "pas2694"
-    jobs: 10
 
 set-resources:
     cellranger_arc_count:
-        jobs: 5
         mem_mb: 128000
-        executor: slurm
-        slurm_account: "PAS2694"
         runtime: 540
-        slurm_extra: "'--nice=150'"
-        ##mem_mb_per_cpu: 4000
+        slurm_extra: "'--nice=100'"
         cpus_per_task: 20
+    run_droplet_utils:
+        mem_mb: 20000
+        runtime: 60
     filter_vcf:
-        jobs: 5
         mem_mb: 10000
         runtime: 60
     demuxlet_gex:
