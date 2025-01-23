@@ -59,9 +59,11 @@ Edit the `incoming_dir` variable on the `populate_data.sh` to the path where VCF
 
 An example is provided on `assets/slurm.template`. Set the path for your template on the `config/config.yaml` file.
 
-*Optional: Create a snakemake environment. This pipeline considers snakemake version >= 8*
+*Optional: Create a snakemake environment and install slurm executor plugin. This pipeline considers snakemake version >= 8*
 ```
 conda create -n snakemake -c bioconda snakemake
+conda activate snakemake
+pip install snakemake-executor-plugin-slurm
 ```
 
 4. Run snakemake
