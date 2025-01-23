@@ -48,6 +48,7 @@ rule cellranger_arc_count:
             --reference={params.refdir} \
             --libraries=../../{input.libraries} \
             --jobmode={params.jobmode} \
+            --mempercore=3 \
             1> ../../{log.out} \
             2> ../../{log.err} && \
         cd ../.. && \

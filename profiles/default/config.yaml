@@ -6,20 +6,19 @@ default-resources:
 
 set-resources:
     cellranger_arc_count:
-        mem_mb: 128000
-        runtime: 540
-        slurm_extra: "'--nice=100'"
+        mem_mb: 16000
+        runtime: 600
         cpus_per_task: 20
     run_droplet_utils:
-        mem_mb: 20000
+        mem_mb: 32000
         runtime: 60
     filter_vcf:
-        mem_mb: 10000
+        mem_mb: 16000
         runtime: 60
     demuxlet_gex:
-        mem_mb: 20000
+        mem_mb: 32000
         runtime: 4320
     demuxlet_atac: 
-        mem_mb: 20000
+        mem_mb: 32000
         runtime: 4320
     
