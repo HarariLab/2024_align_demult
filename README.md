@@ -73,7 +73,7 @@ On the pipeline root directory, run:
 ```
 conda activate snakemake
 snakemake --use-conda --rerun-incomplete --scheduler=greedy --dry-run  ## dry-run the pipeline
-snakemake --use-conda --rerun-incomplete --scheduler=greedy --executor slurm --jobs <njobs>
+snakemake --use-conda --rerun-incomplete --scheduler=greedy
 ```
 
 ## Profile configuration
