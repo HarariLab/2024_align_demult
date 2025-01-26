@@ -10,15 +10,22 @@ rule filter_all:
 
 rule filter_vcf:
     input: "data/genotypes/{pool}.vcf.gz"
+    params:
+        MAF = config["MAF"],
+        R2 = config["R2"]
     output: 
         done = "results/filter_vcf/{pool}.done",
         vcf = "results/filter_vcf/{pool}.filtered.vcf.gz"
-    log: "logs/filter_vcf/{pool}.out"
+    benchmark:
+        "benchmarks/filter_vcf/{pool}.benchmark.txt"
+    log: 
+        "logs/filter_vcf/{pool}.out"
     conda: 
         config["conda_env"]
     shell:
         """
-        bcftools filter --include 'MAF>=0.05' -Oz --output {output.vcf} {input}
+        bcftools filter -e 'INFO/MAF<{params.MAF}' {input} | bcftools filter \
+        -e 'INFO/R2<{params.R2}' -Oz --output {output.vcf} && \
         touch {output.done}
         """
 
