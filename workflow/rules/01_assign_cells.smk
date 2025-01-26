@@ -18,10 +18,10 @@ rule run_droplet_utils:
         err = "logs/assign_cells/{pool}.err"
     output:
         "results/assign_cells/{pool}.done",
-        matrix = "results/assign_cells/{pool}/outs/filtered_feature_bc_matrix/matrix.tsv.gz",
+        matrix = "results/assign_cells/{pool}/outs/filtered_feature_bc_matrix/matrix.mtx.gz",
         features = "results/assign_cells/{pool}/outs/filtered_feature_bc_matrix/features.tsv.gz",
         barcodes = "results/assign_cells/{pool}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz"
     benchmark:
         "benchmarks/assign_cells/{pool}.benchmark.txt"
     script:
-        "workflow/scripts/runDropletUtils.R"
+        "../scripts/runDropletUtils.R"

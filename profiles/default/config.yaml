@@ -1,6 +1,8 @@
 # Resources set on the OSC
 executor: slurm
 jobs: 10
+latency-wait: 30
+scheduler: greedy
 default-resources:
     slurm_account: "pas2694"
 
@@ -8,7 +10,6 @@ set-resources:
     cellranger_arc_count:
         mem_mb: 16000
         runtime: 600
-        cpus_per_task: 20
     run_droplet_utils:
         mem_mb: 32000
         runtime: 60

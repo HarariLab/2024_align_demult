@@ -25,6 +25,7 @@ rule cellranger_arc_count:
         cellranger_arc_path = config["cellrangerarc_path"],
         refdir = config["refdir"],
         jobmode = config["jobmode"]
+        
     output: 
         "results/cellranger_arc_count/{pool}.done",
         raw_barcodes = "results/cellranger_arc_count/{pool}/outs/raw_feature_bc_matrix/barcodes.tsv.gz",
@@ -49,7 +50,7 @@ rule cellranger_arc_count:
             --libraries=../../{input.libraries} \
             --jobmode={params.jobmode} \
             --mempercore=3 \
-            --maxjobs=12 \
+            --maxjobs=24 \
             1> ../../{log.out} \
             2> ../../{log.err} && \
         cd ../.. && \
