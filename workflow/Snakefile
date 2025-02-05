@@ -3,6 +3,7 @@ include: "rules/01_assign_cells.smk"
 include: "rules/02_filter_vcf.smk"
 include: "rules/03_demuxlet_gex.smk"
 include: "rules/04_demuxlet_atac.smk"
+include: "rules/05_prepare_outputs.smk"
 
 onstart:
     print("★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★")
@@ -13,7 +14,8 @@ all_input_list = [
     rules.cellranger_arc_all.input,
     rules.assign_cells_all.input,
     rules.demuxlet_gex_all.input,
-    rules.demuxlet_atac_all.input
+    rules.demuxlet_atac_all.input,
+    rules.create_directories_all.input
 ]
 
 if(not(config.get("skip_vcf_filter", False))):
