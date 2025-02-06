@@ -22,4 +22,10 @@ set-resources:
     demuxlet_atac: 
         mem_mb: 32000
         runtime: 4320
+    map_all_singlets_and_doublets:
+        mem_mb: 10000
+        runtime: 60
+    create_cellranger_structure:
+        mem_mb: 10000
+        runtime: 120
     
