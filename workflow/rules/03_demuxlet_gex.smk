@@ -16,13 +16,15 @@ def get_vcfs(wildcards):
 rule demuxlet_gex_all:
     input:
         expand("results/demuxlet_gex/{pool}.done", pool = POOLS_LIST)
+
     default_target: True
 
 rule demuxlet_gex:
     input:
         unpack(get_vcfs)
     output: 
-        "results/demuxlet_gex/{pool}.done"
+        done = "results/demuxlet_gex/{pool}.done",
+        best = "results/demuxlet_gex/{pool}.best"
     params: 
         cap_bq = config["cap_bq"],
         min_bq = config["min_bq"],
