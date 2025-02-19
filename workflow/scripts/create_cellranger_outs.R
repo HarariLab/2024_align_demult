@@ -7,26 +7,27 @@ sink(error_log, type = "message")
 suppressPackageStartupMessages({
     library(DropletUtils)
     library(dplyr)
-    library(Seurat)
 })
 
 all_df <- read.csv(snakemake@input[["all_df"]])
-list_samples <- split(all_df$BARCODE, all_df$sample)
+all_matrix_input <- snakemake@input[["matrix"]]
 
-df_samples <- all_df %>% select(sample, pool) %>% unique()
-pools <- setNames(df_samples$pool, df_samples$sample)
+pool_s <- grep("pool\\d+", unlist(strsplit(all_matrix_input, split = "\\/")), value = T)
+
+all_df <- all_df %>% filter(pool == pool_s)
+
+list_samples <- split(all_df$BARCODE, all_df$sample)
 
 samples <- names(list_samples)
 
-all_matrix_input <- snakemake@input[["matrix"]]
-print(all_matrix_input)
+print(samples)
 
 for (s in samples) {
 
     message("Processing sample ", s)
     samples_bc <- list_samples[[s]]
 
-    m_file <- all_matrix_input[grep(pools[s], all_matrix_input)]
+    m_file <- all_matrix_input
     #print(m_file)
     sce <- read10xCounts(dirname(m_file))
     sce_filtered <- sce[, which(colData(sce)$Barcode %in% samples_bc) ]

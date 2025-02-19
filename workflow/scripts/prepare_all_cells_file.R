@@ -9,7 +9,7 @@ library(vroom)
 library(purrr)
 library(tidyr)
 
-BEST_FILES <- snakemake@input[[1]]
+BEST_FILES <- unlist(snakemake@input)
 
 map_dfr(1:length(BEST_FILES), function(i) {
   
