@@ -7,7 +7,6 @@ sink(error_log, type = "message")
 suppressPackageStartupMessages({
     library(DropletUtils)
     library(dplyr)
-    library(Seurat)
 })
 
 all_df <- read.csv(snakemake@input[["all_df"]])
