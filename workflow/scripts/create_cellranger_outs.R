@@ -10,11 +10,12 @@ suppressPackageStartupMessages({
 })
 
 all_df <- read.csv(snakemake@input[["all_df"]])
-all_matrix_input <- snakemake@input[["matrix"]]
+pool_matrix_path <- snakemake@input[["matrix"]]
 
-pool_s <- grep("pool\\d+", unlist(strsplit(all_matrix_input, split = "\\/")), value = T)
+pool_path <- gsub(file.path("","outs","filtered_feature_bc_matrix","matrix.mtx.gz"),"",pool_matrix_path)
+pool_id <- tail(unlist(strsplit(pool_path, split = "\\/")), n = 1)
 
-all_df <- all_df %>% filter(pool == pool_s)
+all_df <- all_df %>% filter(pool == pool_id)
 
 list_samples <- split(all_df$BARCODE, all_df$sample)
 
@@ -27,7 +28,7 @@ for (s in samples) {
     message("Processing sample ", s)
     samples_bc <- list_samples[[s]]
 
-    m_file <- all_matrix_input
+    m_file <- pool_matrix_path
     #print(m_file)
     sce <- read10xCounts(dirname(m_file))
     sce_filtered <- sce[, which(colData(sce)$Barcode %in% samples_bc) ]
