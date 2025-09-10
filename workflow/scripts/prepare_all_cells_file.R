@@ -13,7 +13,17 @@ BEST_FILES <- unlist(snakemake@input)
 
 map_dfr(1:length(BEST_FILES), function(i) {
   
-  df <- vroom(BEST_FILES[i])
+  # Explicitly specifiying column data types
+  # because sample names can also be just ids
+  # and vroom will read it as a decimal
+  df <- vroom(BEST_FILES[i], col_types = cols(
+      BARCODE = col_character(),
+      BEST = col_character(),
+      SNG.1ST = col_character(),
+      SNG.2ND = col_character(),
+      DBL.1ST = col_character(),
+      DBL.2ND = col_character(),
+      .default = col_double()))
   df$pool <- gsub(".best", "", basename(BEST_FILES[i]))
   df
   
@@ -39,6 +49,7 @@ if(length(single_pools) > 0) {
 
 singlets <- df %>% 
   filter(prediction == "SNG") %>% 
+  #if sample name contains only digits it will be misin
   select(BARCODE, sample = SNG.1ST, pool) %>% 
   mutate(prediction = "singlet")
 
