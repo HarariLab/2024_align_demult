@@ -6,7 +6,8 @@ A Snakemake workflow for Multiome ATAC + Gene Expression sequencing alignment wi
 
 This pipeline needs the following inputs:  
     - A list of multiplexed fastq files (`libraries.csv` file);  
-    - VCF files with genotypes for each sample in the pool (`data/genotypes`)  
+    - VCF files with genotypes for each sample in the pool (`data/genotypes`);
+    - Metadata file with match between pools and samples
 
 ### Inputs
 
@@ -25,6 +26,17 @@ pool2,/fs/ess/PAS2694/Data/Karch_multiome_SR004606_10X/FASTQ,NDRI_ADRC_Frontal_a
 - Genotypes: 
 
 The `populate_data.sh` script will create soft links for the VCFs on the `data/genotypes` directory. Make sure all VCFs are following the sample naming convention. 
+
+- Pools and sample matching `pools_samples.csv` file:
+Contains 2 columns: `pool_id`, `sample_id`. Information on what samples contains within pool. Important: one sample can be in multiple pools and one pool usually contains more that one sample.
+```
+pool_id,sample_id
+pool1,4067087607
+pool1,4067087535
+pool2,4067087619
+pool2,4067087607
+```
+
 
 ###  Pipeline configuration
 

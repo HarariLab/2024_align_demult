@@ -4,9 +4,10 @@ configfile: "config/config.yaml"
 include: "import_libraries.smk"
 
 POOLS_LIST = POOLS.pool_id.unique().tolist()
+SAMPLES_LIST = SAMPLES.sample_id.unique().tolist()
 
 rule create_directories_all:
-    input: expand("results/cellranger_gex_out/{pool}_create_cellranger_structure.done", pool = POOLS_LIST) 
+    input: expand("results/cellranger_gex_out/{sample}_create_cellranger_structure.done", sample = SAMPLES_LIST) 
     default_target: True
 
 rule map_all_singlets_and_doublets:
@@ -22,13 +23,13 @@ rule map_all_singlets_and_doublets:
 
 rule create_cellranger_structure:
     input: 
-        all_df=rules.map_all_singlets_and_doublets.output,
-        matrix="results/assign_cells/{pool}/outs/filtered_feature_bc_matrix/matrix.mtx.gz"
+        all_df=rules.map_all_singlets_and_doublets.output
+        #matrix="results/assign_cells/{pool}/outs/filtered_feature_bc_matrix/matrix.mtx.gz"
     output:
-        "results/cellranger_gex_out/{pool}_create_cellranger_structure.done"
+        "results/cellranger_gex_out/{sample}_create_cellranger_structure.done"
     log:
-        err="logs/cellranger_gex_out/{pool}/create_cellranger_structure.err",
-        log="logs/cellranger_gex_out/{pool}/create_cellranger_structure.log"
+        err="logs/cellranger_gex_out/{sample}/create_cellranger_structure.err",
+        log="logs/cellranger_gex_out/{sample}/create_cellranger_structure.log"
     conda:
         config["conda_env"]
     script:

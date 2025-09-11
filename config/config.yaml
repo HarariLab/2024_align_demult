@@ -1,12 +1,12 @@
 # Cellranger-arc
 libraries: "data/libraries.csv"
-cellrangerarc_path: "/users/PAS2713/iaradsouza1/cellranger-arc-2.0.2/cellranger-arc"
-refdir: "/fs/ess/PAS2848/iaradsouza1/preprocessing/Karch_multiome_SR004606_10X_alignment/ref/refdata-cellranger-arc-GRCh38-2020-A-2.0.0"
-jobmode: "/users/PAS2713/iaradsouza1/cellranger-arc-2.0.2/external/martian/jobmanagers/slurm.template"
+cellrangerarc_path: "/users/PAS2694/aladyevae/tools/cellranger/cellranger-arc-2.0.2/cellranger-arc"
+refdir: "/fs/ess/PAS2713/References/Human/ATACseq/refdata-cellranger-arc-GRCh38-2020-A-2.0.0"
+jobmode: "/users/PAS2694/aladyevae/tools/cellranger/cellranger-arc-2.0.2/external/martian/jobmanagers/slurm.template"
 
 # Skip vcf filter?
 skip_vcf_filter: False
-MAF: 0.05
+MAF: 0.05 # Minor Allele Frequency for filtering imputed variants
 R2: 0.3
 
 # Demuxlet
@@ -18,3 +18,7 @@ min_td: 0 # Demuxlet default: 0
 excl_flag: 3844 # Demuxlet default: 3844
 geno_error: 0.01
 conda_env: "demuxlet"
+
+# Output files
+pools_samples: "data/pools_samples.csv"
+
