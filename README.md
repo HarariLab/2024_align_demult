@@ -28,6 +28,7 @@ pool2,/fs/ess/PAS2694/Data/Karch_multiome_SR004606_10X/FASTQ,NDRI_ADRC_Frontal_a
 The `populate_data.sh` script will create soft links for the VCFs on the `data/genotypes` directory. Make sure all VCFs are following the sample naming convention. 
 
 - Pools and sample matching `pools_samples.csv` file:
+
 Contains 2 columns: `pool_id`, `sample_id`. Information on what samples contains within pool. Important: one sample can be in multiple pools and one pool usually contains more that one sample.
 ```
 pool_id,sample_id
